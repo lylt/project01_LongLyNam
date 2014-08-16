@@ -120,7 +120,7 @@ public class FirstScreen extends Activity {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				int textlength=s.length();
-				ArrayList<Record> arrResult=new ArrayList<>();
+				ArrayList<Record> arrResult=new ArrayList<Record>();
 				for(Record r:arrRecord){
 					if(textlength<=r.getTittle().length()){
 						if(r.getTittle().toLowerCase().contains(s.toString().toLowerCase())){

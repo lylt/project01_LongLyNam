@@ -85,7 +85,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 			 String slQuery="SELECT *FROM "+TB_NAME;
 			 SQLiteDatabase db=this.getReadableDatabase();
 			 Cursor cursor=db.rawQuery(slQuery, null);
-			 ArrayList<Record> arrRecord=new ArrayList<>();
+			 ArrayList<Record> arrRecord=new ArrayList<Record>();
 			 if(cursor.moveToFirst()){
 				 do{
 				arrRecord.add(new Record(cursor.getString(1),cursor.getString(2),cursor.getString(3)));

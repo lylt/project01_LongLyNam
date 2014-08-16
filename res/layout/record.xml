@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:text="travel in Dan Nang"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="10dp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <LinearLayout

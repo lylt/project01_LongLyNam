@@ -14,18 +14,21 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.iremember.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name" >
-             <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.iremember.FirstScreen"
-            android:label="@string/title_activity_first_screen" >
-           
+            android:name=".FirstScreen"
+            android:label="First_Screen" >
+        </activity>
+        <activity
+            android:name=".AddVideoActivity"
+            android:label="@string/title_activity_add_video" >
         </activity>
     </application>
 

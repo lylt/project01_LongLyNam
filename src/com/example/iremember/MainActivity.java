@@ -27,7 +27,7 @@ import android.os.Build;
 public class MainActivity extends Activity {
 	EditText edtTittle;
 	EditText edtBody;
-	Button btnCreate;
+	Button btnCreate,btnAddVideo;
 	TextView tvTime;
 	private MySQLiteOpenHelper dataHelper;
 	private Cursor cusor;
@@ -42,6 +42,7 @@ public class MainActivity extends Activity {
 		edtTittle.setText("");
 		edtBody = (EditText) findViewById(R.id.edtBody);
 		edtBody.setText("");
+		btnAddVideo=(Button) findViewById(R.id.btnAddVideo);
 		btnCreate = (Button) findViewById(R.id.btnCreate);
 		tvTime = (TextView) findViewById(R.id.tvTime);
 		Calendar c = Calendar.getInstance();
@@ -82,6 +83,18 @@ public class MainActivity extends Activity {
 					alertdialog.show();
 				}
 
+			}
+		});
+		addVideo();
+	}
+	public void addVideo(){
+		btnAddVideo.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent mIntent= new Intent(getApplicationContext(),AddVideoActivity.class);
+				startActivity(mIntent);
+				
 			}
 		});
 	}
