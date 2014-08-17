@@ -7,5 +7,6 @@
     <string name="title_activity_add_video">AddVideoActivity</string>
     <string name="title_activity_add_audio">AddAudioActivity</string>
     <string name="title_activity_record_audio">RecordAudioActivity</string>
+    <string name="title_activity_display_selected_item">DisplaySelectedItem</string>
 
 </resources>

@@ -41,6 +41,10 @@
             android:name=".RecordAudioActivity"
             android:label="@string/title_activity_record_audio" >
         </activity>
+        <activity
+            android:name=".DisplaySelectedItem"
+            android:label="@string/title_activity_display_selected_item" >
+        </activity>
     </application>
 
 </manifest>

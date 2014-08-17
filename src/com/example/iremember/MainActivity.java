@@ -57,11 +57,14 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				String tittle ="";
 				String body = "";
+				Intent i=getIntent();
+				String audioPath=i.getStringExtra("audioPath");
+				btnCreate.setText(audioPath);
 				tittle = edtTittle.getText().toString();
 				body = edtBody.getText().toString();
 				String time = tvTime.getText().toString();
 				if(!tittle.equals("")){
-				Record r = new Record(tittle, body, time);
+				Record r = new Record(tittle, body, time,audioPath,"videoPath","imagePath");
 				dataHelper.INSERT_RECORD(r);
 				dataHelper.close();
 				Toast.makeText(MainActivity.this, "created successfuly", 30000)

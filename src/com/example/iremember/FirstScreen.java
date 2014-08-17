@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -57,6 +58,7 @@ public class FirstScreen extends Activity {
 
 			}
 		});
+		displaySelectedItem();
 
 	}
 
@@ -112,6 +114,21 @@ public class FirstScreen extends Activity {
 				alertDialog.show();
 				return false;
 			}
+		});
+	}
+	public void displaySelectedItem(){
+		listview.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent iIntent=new Intent(getApplicationContext(),DisplaySelectedItem.class);
+				Record r= arrRecord.get(position);
+				String data[]={r.getTittle(),r.getBody(),r.getAudioPath()};
+				iIntent.putExtra("data", data);
+				startActivity(iIntent);
+			}
+			
 		});
 	}
 	public void Filter(){

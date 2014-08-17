@@ -16,7 +16,7 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 public class AddAudioActivity extends Activity {
-	Button btnRecordAudio, btnChooseAudio, btnPlay;
+	Button btnRecordAudio, btnChooseAudio, btnPlay,btnBackToMainActivity;
 	MediaPlayer m;
 	SeekBar seekBar;
 	String outputFile = null;
@@ -31,11 +31,13 @@ public class AddAudioActivity extends Activity {
 		btnChooseAudio = (Button) findViewById(R.id.btnChooseAudio);
 		seekBar = (SeekBar) findViewById(R.id.seekBar);
 		btnPlay = (Button) findViewById(R.id.btnPlay);
+		btnBackToMainActivity=(Button) findViewById(R.id.btnBackToMainActivity);
 //		seekBar.setVisibility(View.INVISIBLE);
 //		btnPlay.setVisibility(View.INVISIBLE);
 		recordAudio();
 		chooseAudio();
 		play();
+		backToMain();
 	}
 
 	@Override
@@ -155,6 +157,17 @@ public class AddAudioActivity extends Activity {
 		}
 	};
 
-	// choose file
+	public void backToMain(){
+		btnBackToMainActivity.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+				intent.putExtra("audioPath",outputFile);
+				startActivity(intent);
+				
+			}
+		});
+	}
 
 }
