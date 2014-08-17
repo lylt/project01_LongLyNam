@@ -27,7 +27,7 @@ import android.os.Build;
 public class MainActivity extends Activity {
 	EditText edtTittle;
 	EditText edtBody;
-	Button btnCreate,btnAddVideo;
+	Button btnCreate,btnAddVideo,btnAddAudio;
 	TextView tvTime;
 	private MySQLiteOpenHelper dataHelper;
 	private Cursor cusor;
@@ -42,6 +42,7 @@ public class MainActivity extends Activity {
 		edtTittle.setText("");
 		edtBody = (EditText) findViewById(R.id.edtBody);
 		edtBody.setText("");
+		btnAddAudio=(Button) findViewById(R.id.btnAddAudio);
 		btnAddVideo=(Button) findViewById(R.id.btnAddVideo);
 		btnCreate = (Button) findViewById(R.id.btnCreate);
 		tvTime = (TextView) findViewById(R.id.tvTime);
@@ -86,6 +87,7 @@ public class MainActivity extends Activity {
 			}
 		});
 		addVideo();
+		addAudio();
 	}
 	public void addVideo(){
 		btnAddVideo.setOnClickListener(new OnClickListener() {
@@ -98,5 +100,15 @@ public class MainActivity extends Activity {
 			}
 		});
 	}
-
+	public void addAudio(){
+		btnAddAudio.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent mIntent= new Intent(getApplicationContext(),AddAudioActivity.class);
+				startActivity(mIntent);
+				
+			}
+		});
+	}
 }
