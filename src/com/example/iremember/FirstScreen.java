@@ -124,7 +124,7 @@ public class FirstScreen extends Activity {
 					int position, long id) {
 				Intent iIntent=new Intent(getApplicationContext(),DisplaySelectedItem.class);
 				Record r= arrRecord.get(position);
-				String data[]={r.getTittle(),r.getBody(),r.getAudioPath()};
+				String data[]={r.getTittle(),r.getBody(),r.getAudioPath(),r.getVideoPath(),r.getImagePath()};
 				iIntent.putExtra("data", data);
 				startActivity(iIntent);
 			}

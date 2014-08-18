@@ -1,6 +1,7 @@
 package com.example.iremember;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -32,7 +33,7 @@ public class AddVideoActivity extends Activity {
 	static File mediaFile;
 	VideoView v;
 	public static final int MEDIA_TYPE_VIDEO = 2;
-	public static final int MEDIA_TYPE_IMAGE = 1;
+	
 	private static final String IMAGE_DIRECTORY_NAME = "Hello Camera";
 	private static final int RESULT_LOAD_IMAGE = 100;
 	protected static final int RESULT_LOAD_VIDEO = 50;
@@ -164,31 +165,23 @@ public class AddVideoActivity extends Activity {
 	}
 
 	private static File getOutputMediaFile(int type) {
-		File mediaStorageDir = new File(Environment
-				.getExternalStorageDirectory().getAbsolutePath()
-				+ "myvideo.mp4");
-		// Create the storage directory if it does not exist
-		if (!mediaStorageDir.exists()) {
-			if (!mediaStorageDir.mkdirs()) {
-				Log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create "
-						+ IMAGE_DIRECTORY_NAME + " directory");
-				return null;
-			}
-		}
 
-		// Create a media file name
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
 				Locale.getDefault()).format(new Date());
-		File mediaFile;
-
+		String videoName=timeStamp + "_";
+		File mediaFileDir= new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/IRemember3/Video/");
+	
 		if (type == MEDIA_TYPE_VIDEO) {
-			// mediaFile = new File(mediaStorageDir.getPath() + File.separator
-			// + "VID_" + timeStamp + ".mp4");
-			mediaFile = new File(mediaStorageDir.getPath());
+			 try {
+				mediaFile = File.createTempFile(videoName,".mp4",mediaFileDir);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//mediaFile = new File(mediaStorageDir.getPath());
 		} else {
 			return null;
 		}
-
 		return mediaFile;
 
 	}

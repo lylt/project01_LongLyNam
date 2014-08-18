@@ -40,6 +40,7 @@ public class MainActivity extends Activity{
 	Location location;
 	double latitude;double longitude;
 	EditText edtImageName;
+	String videoPath,imagePath;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -88,7 +89,10 @@ public class MainActivity extends Activity{
 				+ "   " + c.get(Calendar.DATE) + " - " + c.get(Calendar.MONTH)
 				+ " - " + c.get(Calendar.YEAR);
 		tvTime.setText(time);
-
+		addVideo();
+		addAudio();
+		addPhoto();
+		getLocation();
 		btnCreate.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -102,7 +106,7 @@ public class MainActivity extends Activity{
 				body = edtBody.getText().toString();
 				String time = tvTime.getText().toString();
 				if(!tittle.equals("")){
-				Record r = new Record(tittle, body, time,audioPath,"videoPath","imagePath");
+				Record r = new Record(tittle, body, time,audioPath,videoPath,imagePath);
 				dataHelper.INSERT_RECORD(r);
 				dataHelper.close();
 				Toast.makeText(MainActivity.this, "created successfuly", 30000)
@@ -127,10 +131,7 @@ public class MainActivity extends Activity{
 
 			}
 		});
-		addVideo();
-		addAudio();
-		addPhoto();
-		getLocation();
+		
 		
 	}
 	public void addVideo(){
@@ -201,14 +202,14 @@ public class MainActivity extends Activity{
 	        switch (requestCode) {
 	        case GET_VALUES_VIDEO_ID: {
 	            if (Activity.RESULT_OK == resultCode) {
-	              temp= data.getStringExtra(FIRST_VALUE_ID);
+	              videoPath= data.getStringExtra(FIRST_VALUE_ID);
 	                setValues();
 	            }
 	            break;
 	        }
 	        case GET_VALUES_IMAGE_ID: {
 	            if (Activity.RESULT_OK == resultCode) {
-	              temp= data.getStringExtra(IMAGE_KEY );
+	              imagePath= data.getStringExtra(IMAGE_KEY );
 	                setValues();
 	            }
 	            break;

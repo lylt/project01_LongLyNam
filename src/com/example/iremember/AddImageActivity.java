@@ -1,5 +1,11 @@
 package com.example.iremember;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -8,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,7 +31,9 @@ public class AddImageActivity extends Activity {
 	ImageView image;
 	static final int REQUEST_IMAGE_CAPTURE = 200;
 	private static final int RESULT_LOAD_IMAGE = 100;
+	public static final int MEDIA_TYPE_IMAGE = 1;
 	String path;
+	static File mediaFile;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -66,6 +75,8 @@ public class AddImageActivity extends Activity {
 	// using camera to take a picture
 	public void takePicture() {
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT,getOutputImageFile(MEDIA_TYPE_IMAGE));
+		path=getOutputImageFile(MEDIA_TYPE_IMAGE).getAbsolutePath();
 		startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
 	}
 
@@ -81,7 +92,7 @@ public class AddImageActivity extends Activity {
 		if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 			Bundle extras = data.getExtras();
 			Bitmap imageBitmap = (Bitmap) extras.get("data");
-			path=extras.toString();
+			
 			image.setImageBitmap(imageBitmap);
 		}
 
@@ -115,6 +126,27 @@ public class AddImageActivity extends Activity {
 		}
 	}
 
+	private static File getOutputImageFile(int type) {
+
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+				Locale.getDefault()).format(new Date());
+		String videoName=timeStamp + "_";
+		File mediaFileDir= new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/IRemember3/Picture/");
+	
+		if (type == MEDIA_TYPE_IMAGE) {
+			 try {
+			 mediaFile = File.createTempFile(videoName,".png",mediaFileDir);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//mediaFile = new File(mediaStorageDir.getPath());
+		} else {
+			return null;
+		}
+		return mediaFile;
+
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 

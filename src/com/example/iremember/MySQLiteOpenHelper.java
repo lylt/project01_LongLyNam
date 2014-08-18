@@ -25,6 +25,8 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 	public static final String CL_audioPath = "audioPath";
 	public static final String CL_videoPath = "videoPath";
 	public static final String CL_imagePath = "imagePath";
+	
+	
 
 	public MySQLiteOpenHelper(Context context) {
 		super(context, DB_NAME, null, vs);
