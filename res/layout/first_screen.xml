@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#2FADAD"
     android:orientation="vertical" >
 
     <Button
@@ -9,7 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Create New"
-        android:layout_margin="10dp" />
+        android:layout_margin="10dp"
+        android:background="#79B8F7"
+       />
 
     <EditText
         android:id="@+id/edtFilter"

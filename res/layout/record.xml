@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#177A9C"
     android:orientation="vertical" >
 
     <TextView
@@ -9,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Memory in Da Nang"
-       	android:textColor="#800517"
+       	android:textColor="#7A3F18"
         android:layout_marginLeft="60dp"
         android:layout_marginTop="20dp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -21,6 +22,7 @@
         android:text="travel in Dan Nang"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
+        android:textColor="#80BF54"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <LinearLayout
@@ -32,6 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:textColor="#B5EBE8"
             android:text="Time: "
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -40,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10AM"
+            android:textColor="#B5EBE8"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="40dp"
             android:textAppearance="?android:attr/textAppearanceMedium" />

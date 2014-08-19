@@ -2,6 +2,8 @@ package com.example.iremember;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
@@ -75,7 +77,8 @@ public void disPlayVideo(){
 	});
 }
 public void displayImage(){
-	
+	Bitmap bit = BitmapFactory.decodeFile(imagePath);
+	imgImage.setImageBitmap(bit);
 }
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
