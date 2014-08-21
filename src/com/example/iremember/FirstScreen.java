@@ -24,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.os.Build;
 
 public class FirstScreen extends Activity {
@@ -47,7 +48,12 @@ public class FirstScreen extends Activity {
 		edtFilter = (EditText) findViewById(R.id.edtFilter);
 		arrRecord = new ArrayList<Record>();
 		loadData();
-		onClick();
+		onLongClickItem();
+		add();
+		displaySelectedItem();
+
+	}
+	public void add(){
 		btnAdd.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -58,10 +64,7 @@ public class FirstScreen extends Activity {
 
 			}
 		});
-		displaySelectedItem();
-
 	}
-
 	// load data from SQLite when the program begin
 	public void loadData() {
 		dataHelper = new MySQLiteOpenHelper(FirstScreen.this);
@@ -77,7 +80,7 @@ public class FirstScreen extends Activity {
 		
 	}
 
-	public void onClick() {
+	public void onLongClickItem() {
 		listview.setOnItemLongClickListener(new OnItemLongClickListener() {
 
 			@Override
@@ -124,9 +127,12 @@ public class FirstScreen extends Activity {
 					int position, long id) {
 				Intent iIntent=new Intent(getApplicationContext(),DisplaySelectedItem.class);
 				Record r= arrRecord.get(position);
-				String data[]={r.getTittle(),r.getBody(),r.getAudioPath(),r.getVideoPath(),r.getImagePath()};
+				String data[]={r.getTittle(),r.getBody(),r.getTime(),r.getAudioPath(),r.getVideoPath(),r.getImagePath(),r.getLocation()};
 				iIntent.putExtra("data", data);
+				iIntent.putExtra("id",r.getId());
+				Toast.makeText(getApplicationContext(), ""+id, 3000).show();
 				startActivity(iIntent);
+				
 			}
 			
 		});

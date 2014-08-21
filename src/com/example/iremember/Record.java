@@ -3,10 +3,36 @@ package com.example.iremember;
 import java.io.Serializable;
 
 public class Record	implements Serializable {
+	int id;
+	public Record(int id, String tittle, String body, String time,
+			String audioPath, String videoPath, String imagePath,
+			String location) {
+		super();
+		this.id = id;
+		this.tittle = tittle;
+		this.body = body;
+		Time = time;
+		this.audioPath = audioPath;
+		this.videoPath = videoPath;
+		this.imagePath = imagePath;
+		this.location = location;
+	}
 	private String tittle;
 	private String body;
 	private String Time;
-	String audioPath,videoPath,imagePath;
+	String audioPath,videoPath,imagePath,location;
+	public String getLocation() {
+		return location;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
 	public Record(String tittle, String body, String time, String audioPath,
 			String videoPath, String imagePath) {
 		super();
@@ -39,6 +65,17 @@ public class Record	implements Serializable {
 		tittle="";
 		body="";
 		
+	}
+	public Record(String tittle, String body, String time, String audioPath,
+			String videoPath, String imagePath, String location) {
+		super();
+		this.tittle = tittle;
+		this.body = body;
+		Time = time;
+		this.audioPath = audioPath;
+		this.videoPath = videoPath;
+		this.imagePath = imagePath;
+		this.location = location;
 	}
 	public Record(String t,String b){
 		tittle=t;

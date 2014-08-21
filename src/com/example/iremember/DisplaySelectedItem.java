@@ -17,31 +17,33 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 public class DisplaySelectedItem extends Activity {
-	TextView tvTittle,tvBody;
-	Button btnPlayAudio;
+	TextView tvTittle,tvBody,tvTime,tvDisplayLocation;
+	Button btnPlayAudio,btnEdit;
 	MediaPlayer m;
-	String audioPath,videoPath,imagePath;
+	String audioPath,videoPath,imagePath,time,location;
 	VideoView vdvVideo;
 	ImageView imgImage;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_selected_item);
-		
+		tvDisplayLocation=(TextView) findViewById(R.id.tvDisplayLocation);
 		tvTittle=(TextView) findViewById(R.id.tvTittle);
 		tvBody=(TextView) findViewById(R.id.tvBody);
-		
+		tvTime=(TextView) findViewById(R.id.TVTime);
 		btnPlayAudio=(Button) findViewById(R.id.btnPlayAudio);
-		
+		btnEdit=(Button) findViewById(R.id.btnEdit);
 		vdvVideo= (VideoView) findViewById(R.id.vdvVideo);
 		imgImage= (ImageView) findViewById(R.id.imgImage);
 		Intent i=getIntent();
 		final String data[]=i.getStringArrayExtra("data");
 		tvTittle.setText(data[0]);
 		tvBody.setText(data[1]);
-		audioPath=data[2];
-		videoPath=data[3];
-		imagePath=data[4];
+		tvTime.setText(data[2]);
+		audioPath=data[3];
+		videoPath=data[4];
+		imagePath=data[5];
+		location=data[6];
 		if(audioPath!=null)
 		audio();
 		if(videoPath!=null)
@@ -49,6 +51,8 @@ public class DisplaySelectedItem extends Activity {
 		if(imagePath!=null){
 			displayImage();
 		}
+		setUpdate();
+		tvDisplayLocation.setText(location);
 	}
 public void audio(){
 	btnPlayAudio.setOnClickListener(new View.OnClickListener() {
@@ -89,13 +93,27 @@ public void displayImage(){
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
+
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	public void setUpdate(){
+		Intent i=getIntent();
+		final int id=i.getIntExtra("id", -1);
+		btnEdit.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent mIntent=new Intent(getApplicationContext(),MainActivity.class);
+				mIntent.putExtra("id", id);
+				String data[]={tvTittle.getText().toString(),tvBody.getText().toString(),
+						tvTime.getText().toString(),audioPath,videoPath,imagePath};
+				mIntent.putExtra("data",data );
+				startActivity(mIntent);
+			}
+		});
 	}
 }

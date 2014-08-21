@@ -1,12 +1,22 @@
 package com.example.iremember;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,12 +26,21 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 public class AddAudioActivity extends Activity {
-	Button btnRecordAudio, btnChooseAudio, btnPlay,btnBackToMainActivity;
+	Button btnRecordAudio, btnChooseAudio, btnPlay, btnBackToMainActivity;
 	MediaPlayer m;
 	SeekBar seekBar;
 	String outputFile = null;
 	Intent i;
 	Handler mHandler = new Handler();
+	MediaRecorder myAudioRecorder;
+
+	boolean isRecording = false;
+
+	protected static final int RESULT_LOAD_AUDIO = 50;
+	private static final int AUDIO_RECORD = 101;
+	public static final int MEDIA_TYPE_AUDIO = 3;
+
+	static File mediaFile;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +50,42 @@ public class AddAudioActivity extends Activity {
 		btnChooseAudio = (Button) findViewById(R.id.btnChooseAudio);
 		seekBar = (SeekBar) findViewById(R.id.seekBar);
 		btnPlay = (Button) findViewById(R.id.btnPlay);
-		btnBackToMainActivity=(Button) findViewById(R.id.btnBackToMainActivity);
-//		seekBar.setVisibility(View.INVISIBLE);
-//		btnPlay.setVisibility(View.INVISIBLE);
+		btnBackToMainActivity = (Button) findViewById(R.id.btnBackToMainActivity);
+
+		myAudioRecorder = new MediaRecorder();
+		myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+		myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+		myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+
 		recordAudio();
 		chooseAudio();
 		play();
 		backToMain();
+	}
+
+	// save in folder IRemember3/Audio
+	private static File getOutputImageFile(int type) {
+
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+				Locale.getDefault()).format(new Date());
+		String audioName = timeStamp + "_";
+		File mediaFileDir = new File(Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + "/IRemember3/Audio/");
+
+		if (type == MEDIA_TYPE_AUDIO) {
+			try {
+				mediaFile = File
+						.createTempFile(audioName, ".3gp", mediaFileDir);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// mediaFile = new File(mediaStorageDir.getPath());
+		} else {
+			return null;
+		}
+		return mediaFile;
+
 	}
 
 	@Override
@@ -60,13 +108,35 @@ public class AddAudioActivity extends Activity {
 	}
 
 	public void recordAudio() {
+
 		btnRecordAudio.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Intent mIntent = new Intent(getApplicationContext(),
-						RecordAudioActivity.class);
-				startActivity(mIntent);
+				if (!isRecording) {
+					outputFile = getOutputImageFile(MEDIA_TYPE_AUDIO).getPath();
+					myAudioRecorder.setOutputFile(outputFile);
+					btnRecordAudio.setText("Stop record Audio");
+					//
+					try {
+						myAudioRecorder.prepare();
+						myAudioRecorder.start();
+						isRecording = true;
+					} catch (Exception e) {
+					}
+
+					Toast.makeText(getApplicationContext(),
+							"audiorecording started", 3000).show();
+
+				} else {
+					myAudioRecorder.stop();
+					myAudioRecorder.release();
+					myAudioRecorder = null;
+					btnRecordAudio.setText("Record an audio");
+					isRecording = false;
+					Toast.makeText(getApplicationContext(),
+							"audiorecording stopped", 3000).show();
+				}
 
 			}
 		});
@@ -77,11 +147,10 @@ public class AddAudioActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent_upload = new Intent();
-				intent_upload.setType("audio/3gp");
-				intent_upload.setAction(Intent.ACTION_GET_CONTENT);
-				startActivityForResult(intent_upload, 1);
-
+				Intent intentAudio = new Intent(
+						Intent.ACTION_PICK,
+						android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+				startActivityForResult(intentAudio, RESULT_LOAD_AUDIO);
 			}
 		});
 
@@ -91,34 +160,38 @@ public class AddAudioActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-		if (requestCode == 1) {
+		if (requestCode == AUDIO_RECORD) {
 
 			if (resultCode == RESULT_OK) {
 
 				// the selected audio.
 				Uri uri = data.getData();
-				outputFile=uri.toString();
+				outputFile = uri.getPath();
+			}
+		} else if (requestCode == RESULT_LOAD_AUDIO) {
+			if (resultCode == RESULT_OK) {
+				Uri _uri = data.getData();
+				// User had pick an image.
+				Cursor cursor = getContentResolver()
+						.query(_uri,
+								new String[] { android.provider.MediaStore.Audio.AudioColumns.DATA },
+								null, null, null);
+				cursor.moveToFirst();
+				// Link to the image
+				outputFile = cursor.getString(0);
+				cursor.close();
+
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	public String receiveIntent() {
-		i = getIntent();
-		return i.getStringExtra("path");
-
-	}
-
 	public void play() {
-//		btnPlay.setVisibility(View.VISIBLE);
-//		seekBar.setVisibility(View.VISIBLE);
 		btnPlay.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				try {
-					if(outputFile==null)
-					outputFile = receiveIntent();
 					boolean isplaying = false;
 					m = new MediaPlayer();
 					if (isplaying == false) {
@@ -157,15 +230,15 @@ public class AddAudioActivity extends Activity {
 		}
 	};
 
-	public void backToMain(){
+	public void backToMain() {
 		btnBackToMainActivity.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-				intent.putExtra("audioPath",outputFile);
-				startActivity(intent);
-				
+				Intent intent = new Intent();
+				intent.putExtra(MainActivity.AUDIO_KEY, outputFile);
+				setResult(Activity.RESULT_OK, intent);
+				finish();
 			}
 		});
 	}

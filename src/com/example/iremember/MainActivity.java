@@ -20,8 +20,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SimpleAdapter;
@@ -32,25 +34,29 @@ public class MainActivity extends Activity {
 
 	public static final String FIRST_VALUE_ID = "first_value_id";
 	public static final String IMAGE_KEY = "second_value_id";
+	public static final String AUDIO_KEY = "third_value_id";
+	
 	private static final int GET_VALUES_VIDEO_ID = 1;
 	private static final int GET_VALUES_IMAGE_ID = 2;
+	public static final int GET_VALUES_AUDIO_ID = 3;
 	EditText edtTittle, edtImageName, edtBody;
 	Button btnCreate, btnAddVideo, btnAddAudio, btnAddLocation, btnAddPhoto,
-			btnEdit, btnCancel;
+			btnUpdate, btnCancel;
 	TextView tvTime, tvLatitude;
 	private MySQLiteOpenHelper dataHelper;
 	private Cursor cusor;
 	private SimpleAdapter adapter;
 	LocationManager locationManager;
 	Location location;
-	String videoPath, imagePath, temp;
+	String videoPath, imagePath, audioPath;
 	GPSTracker gps;
 	double latitude, longitude;
-
+	String data[] = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
 		createDirectory();
 		initComponent();
 		addVideo();
@@ -58,6 +64,8 @@ public class MainActivity extends Activity {
 		addPhoto();
 		getLocation();
 		CreateNew();
+		update();
+		cancel();
 	}
 
 	private void createDirectory() {
@@ -98,14 +106,16 @@ public class MainActivity extends Activity {
 		btnAddPhoto = (Button) findViewById(R.id.btnAddPhoto);
 		btnCreate = (Button) findViewById(R.id.btnCreate);
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		edtImageName = (EditText) findViewById(R.id.edtImageName);
-		btnEdit = (Button) findViewById(R.id.btnEdit);
+		btnUpdate = (Button) findViewById(R.id.btnUpdate);
 		btnCancel = (Button) findViewById(R.id.btnCancel);
 		tvTime = (TextView) findViewById(R.id.tvTime);
 		btnAddLocation = (Button) findViewById(R.id.btnGetLocation);
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		location = locationManager
 				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		btnUpdate.setEnabled(false);
+		setTimeText();
+		edtBody.setVisibility(View.INVISIBLE);
 	}
 
 	public void setTimeText() {
@@ -116,6 +126,66 @@ public class MainActivity extends Activity {
 		tvTime.setText(time);
 	}
 
+	public void update() {
+		Intent i=getIntent();
+		final int id=i.getIntExtra("id", -1);
+		if(id!=-1){
+			btnUpdate.setEnabled(true);
+			btnCreate.setEnabled(false);
+			data=i.getStringArrayExtra("data");
+			tvTime.setText(data[2]);
+			edtTittle.setText(data[0]);
+			edtBody.setText(data[1]);
+		}
+		
+		btnUpdate.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				String audioPath,videoPath,imagePath,tittle,body;
+				audioPath=data[3];
+				videoPath=data[4];
+				imagePath=data[5];
+				Intent i = getIntent();
+				audioPath = i.getStringExtra("audioPath");
+				btnCreate.setText(audioPath);
+				tittle = edtTittle.getText().toString();
+				body = edtBody.getText().toString();
+				String time = tvTime.getText().toString();
+				String location = "Latitude: " + latitude + " longitude: "
+						+ longitude;
+				if (!tittle.equals("")) {
+					Record r = new Record(tittle, body, time, audioPath,
+							videoPath, imagePath, location);
+					dataHelper.UPDATE_Record(r,id);
+					dataHelper.close();
+					Toast.makeText(MainActivity.this, "created successfuly",
+							30000).show();
+					Intent mIntent = new Intent(getApplicationContext(),
+							FirstScreen.class);
+					startActivity(mIntent);
+				} else {
+					AlertDialog alertdialog = new AlertDialog.Builder(
+							MainActivity.this).create();
+					alertdialog.setTitle("iRemember");
+					alertdialog.setMessage("tittle should be filled");
+					alertdialog.setButton("OK",
+							new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									// TODO Auto-generated method stub
+
+								}
+							});
+					alertdialog.show();
+				}
+
+			}
+		});
+	}
+
 	public void CreateNew() {
 		btnCreate.setOnClickListener(new OnClickListener() {
 
@@ -124,14 +194,14 @@ public class MainActivity extends Activity {
 				String tittle = "";
 				String body = "";
 				Intent i = getIntent();
-				String audioPath = i.getStringExtra("audioPath");
-				btnCreate.setText(audioPath);
 				tittle = edtTittle.getText().toString();
 				body = edtBody.getText().toString();
 				String time = tvTime.getText().toString();
+				String location = "Latitude: " + latitude + " longitude: "
+						+ longitude;
 				if (!tittle.equals("")) {
 					Record r = new Record(tittle, body, time, audioPath,
-							videoPath, imagePath);
+							videoPath, imagePath, location);
 					dataHelper.INSERT_RECORD(r);
 					dataHelper.close();
 					Toast.makeText(MainActivity.this, "created successfuly",
@@ -161,6 +231,7 @@ public class MainActivity extends Activity {
 		});
 	}
 
+
 	public void addVideo() {
 		btnAddVideo.setOnClickListener(new OnClickListener() {
 
@@ -179,10 +250,8 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent mIntent = new Intent(getApplicationContext(),
-						AddAudioActivity.class);
-				startActivity(mIntent);
-
+				Intent addAudioIntent= new Intent(getApplicationContext(),AddAudioActivity.class);
+				startActivityForResult(addAudioIntent,GET_VALUES_AUDIO_ID);		
 			}
 		});
 	}
@@ -207,23 +276,25 @@ public class MainActivity extends Activity {
 		case GET_VALUES_VIDEO_ID: {
 			if (Activity.RESULT_OK == resultCode) {
 				videoPath = data.getStringExtra(FIRST_VALUE_ID);
-				setValues();
 			}
 			break;
 		}
 		case GET_VALUES_IMAGE_ID: {
 			if (Activity.RESULT_OK == resultCode) {
 				imagePath = data.getStringExtra(IMAGE_KEY);
-				setValues();
 			}
 			break;
 		}
+		 
+        case GET_VALUES_AUDIO_ID: {
+            if (Activity.RESULT_OK == resultCode) {
+              audioPath= data.getStringExtra(AUDIO_KEY);
+              edtBody.setText(audioPath);
+            }
+            break;
+        }
 		}
 		super.onActivityResult(requestCode, resultCode, data);
-	}
-
-	protected void setValues() {
-		edtImageName.setText(temp);
 	}
 
 	public void getLocation() {
@@ -236,7 +307,6 @@ public class MainActivity extends Activity {
 
 				// check if GPS enabled
 				if (gps.canGetLocation()) {
-
 					latitude = gps.getLatitude();
 					longitude = gps.getLongitude();
 					// latitude = 20.213073;
@@ -253,28 +323,22 @@ public class MainActivity extends Activity {
 					Intent mapIntent = new Intent(
 							android.content.Intent.ACTION_VIEW, uri);
 					getAddress();
-					//startActivity(mapIntent);
+					 //startActivity(mapIntent);
 				} else {
 					gps.showSettingsAlert();
 				}
 
 			}
 		});
-	}
-
-	public void edit() {
-
-	}
-
-	public void cancel() {
 
 	}
 
 	public void getAddress() {
 		try {
 			Geocoder geocoder = new Geocoder(MainActivity.this, Locale.ENGLISH);
-			double x=latitude;double y=longitude;
-			List<Address> addresses = geocoder.getFromLocation(x,y, 1);
+			double x = latitude;
+			double y = longitude;
+			List<Address> addresses = geocoder.getFromLocation(x, y, 1);
 			StringBuilder str = new StringBuilder();
 			if (geocoder.isPresent()) {
 				Toast.makeText(getApplicationContext(), "geocoder present",
@@ -289,8 +353,8 @@ public class MainActivity extends Activity {
 				str.append(localityString + "");
 				str.append(city + "" + region_code + "");
 				str.append(zipcode + "");
-				Toast.makeText(getApplicationContext(),city, Toast.LENGTH_SHORT)
-						.show();
+				Toast.makeText(getApplicationContext(), city,
+						Toast.LENGTH_SHORT).show();
 
 			} else {
 				Toast.makeText(getApplicationContext(), "geocoder not present",
@@ -302,5 +366,19 @@ public class MainActivity extends Activity {
 
 			Log.e("tag", e.getMessage());
 		}
+	}
+	public void cancel(){
+		btnCancel.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(edtBody.getVisibility()==View.VISIBLE){
+					edtBody.setVisibility(View.GONE);
+				}else{
+					edtBody.setVisibility(View.VISIBLE);
+				}
+				
+			}
+		});
 	}
 }

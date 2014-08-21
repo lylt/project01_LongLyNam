@@ -50,6 +50,34 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tvDisplayLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/tvTime1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time:"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/TVTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10:30"
+            android:layout_marginLeft="40dp"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
@@ -67,7 +95,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:text="PlayAudio" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -76,21 +103,44 @@
 
         <VideoView
             android:id="@+id/vdvVideo"
-            android:layout_width="286dp"
-            android:layout_height="142dp" />
+            android:layout_width="match_parent"
+            android:layout_height="110dp" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.61" >
+
+        <ImageView
+            android:id="@+id/imgImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/al" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <ImageView
-            android:id="@+id/imgImage"
+        <Button
+            android:id="@+id/btnEdit"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_weight="0.11"
-            android:src="@drawable/al" />
+            android:layout_height="wrap_content"
+            android:text="Edit" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.28"
+            android:text="Cancel" />
+
+        <Button
+            android:id="@+id/btnDel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete" />
     </LinearLayout>
 
 </LinearLayout>

@@ -2,33 +2,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2FADAD"
+    android:background="#66CCFF"
     android:orientation="vertical" >
 
     <Button
         android:id="@+id/btnAdd"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Create New"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:background="#79B8F7"
-       />
+        android:background="#0099CC"
+        android:drawableTop="@drawable/pnew" />
 
     <EditText
         android:id="@+id/edtFilter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:ems="10"
-        android:hint="Filter" >
-
+        android:layout_width="306dp"
+        android:layout_height="39dp"
+        android:background="@drawable/editbox"
+        android:drawableLeft="@drawable/filter32"
+        android:hint="Filter"
+        android:padding="5dip"
+        android:singleLine="true"
+        android:textColor="#999999"
+        android:layout_marginLeft="10dp"
+        android:textSize="14dip" >
         <requestFocus />
     </EditText>
 
     <ListView
         android:id="@+id/listview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_width="304dp"
+        android:layout_height="361dp"
+        android:divider="#66CCFF"
+        android:dividerHeight="9.0sp" >
+
     </ListView>
 
 </LinearLayout>

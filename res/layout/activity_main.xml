@@ -1,7 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="#66CCFF" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -88,123 +89,62 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="AudioLink"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-	
         <Button
             android:id="@+id/btnAddAudio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="5dp"
-            
-            android:text="Add Audio" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/TextView02"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="53dp"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
-            android:text="VideoLink"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_weight="0.39"
+            android:background="#66CCFF"
+            android:drawableTop="@drawable/custom_button_press_audio"
+             />
 
         <Button
             android:id="@+id/btnAddVideo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="5dp"
-            android:text="Add Video" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/TextView04"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="79dp"
+            android:layout_height="50dp"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:text="ImageName"
-            android:layout_marginLeft="10dp"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <EditText
-            android:id="@+id/edtImageName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="5dp"
-            android:hint="enter image name" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/TextView03"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:text="imageMetaData"
-            android:layout_marginLeft="10dp"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:background="#66CCFF"
+            android:drawableTop="@drawable/custom_button_press_video" />
 
         <Button
             android:id="@+id/btnAddPhoto"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="40dp"
             android:layout_marginTop="5dp"
-            android:text="AddPhoto" />
+            android:layout_weight="1.05"
+            android:background="#66CCFF"
+            android:drawableTop="@drawable/custom_button_press_addphoto" />
+
+        <Button
+            android:id="@+id/btnGetLocation"
+            android:layout_width="78dp"
+            android:layout_height="53dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="#66CCFF"
+            android:drawableTop="@drawable/location48" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/TextView05"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:text="location"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
 
-        <Button
-            android:id="@+id/btnGetLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="5dp"
-            android:text="get location" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
     </LinearLayout>
 
     <LinearLayout
@@ -214,25 +154,35 @@
         <Button
             android:id="@+id/btnCreate"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="84dp"
             android:layout_marginLeft="10dp"
-            android:layout_weight="0.18"
-            android:text="Create" />
+            android:text="Create"
+            android:background="@android:color/transparent" 
+            android:drawableTop="@drawable/create48"
+            android:textColor="#F8F8FF"/>
 
         <Button
-            android:id="@+id/btnEdit"
+            android:id="@+id/btnUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_weight="0.32"
-            android:text="Edit" />
+            android:drawableTop="@drawable/update48"
+            android:text="Update"
+            android:background="@android:color/transparent" 
+            android:shadowColor="#336699"
+            android:textColor="#F8F8FF" />
 
         <Button
             android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
-            android:text="Cancel" />
+            android:layout_weight="0.09"
+            android:background="@android:color/transparent" 
+            android:drawableTop="@drawable/cancel48"
+            android:text="Cancel"
+             android:textColor="#F8F8FF" />
 
     </LinearLayout>
 

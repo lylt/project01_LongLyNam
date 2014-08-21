@@ -1,5 +1,6 @@
 package com.example.iremember;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import android.content.ContentValues;
@@ -25,7 +26,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 	public static final String CL_audioPath = "audioPath";
 	public static final String CL_videoPath = "videoPath";
 	public static final String CL_imagePath = "imagePath";
-	
+	public static final String CL_location="Location";
 	
 
 	public MySQLiteOpenHelper(Context context) {
@@ -41,7 +42,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT, " + CL_Tittle
 				+ " TEXT, " + CL_body + " TEXT, " + CL_time + " TEXT, "
 				+ CL_audioPath + " TEXT, " + CL_videoPath + " TEXT, "
-				+ CL_imagePath + " TEXT)";
+				+ CL_imagePath + " TEXT, " + CL_location +" TEXT)";
 		Log.d("debug", sqlCreateDB);
 		db.execSQL(sqlCreateDB);
 	}
@@ -61,6 +62,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 		mcontentValues.put(CL_audioPath, r.getAudioPath());
 		mcontentValues.put(CL_videoPath, r.getVideoPath());
 		mcontentValues.put(CL_imagePath, r.getImagePath());
+		mcontentValues.put(CL_location,r.getLocation());
 		database.insertOrThrow(TB_NAME, null, mcontentValues);
 
 	}
@@ -73,10 +75,13 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 		ContentValues values = new ContentValues();
 		values.put(CL_Tittle, r.getTittle());
 		values.put(CL_body, r.getBody());
+		values.put(CL_time, r.getTime());
+		values.put(CL_audioPath,r.getAudioPath());
+		values.put(CL_videoPath, r.getVideoPath());
+		values.put(CL_imagePath, r.getImagePath());
+		values.put(CL_location, r.getLocation());
 		database.update(TB_NAME, values, "_id = " + id, null);
 	}
-
-	// select toan bo bang TB_NAME = "SinhVien"
 	public Cursor SELECT_ALL__RECORD() {
 		return database.query(TB_NAME, null, null, null, null, null, null);
 	}
@@ -103,16 +108,24 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 		ArrayList<Record> arrRecord = new ArrayList<Record>();
 		if (cursor.moveToFirst()) {
 			do {
-				arrRecord.add(new Record(cursor.getString(1), cursor
+				arrRecord.add(new Record(cursor.getInt(0),cursor.getString(1), cursor
 						.getString(2), cursor.getString(3),cursor.getString(4),
-						cursor.getString(5),cursor.getString(6)));
+						cursor.getString(5),cursor.getString(6),cursor.getString(7)));
 			} while (cursor.moveToNext());
 		}
 		db.close();
 		return arrRecord;
 
 	}
-
+	public int getID(Record r){
+		String slQuery = "SELECT *FROM " + TB_NAME+ " WHERE " + CL_Tittle
+				+ " = " + "\"" + r.getTittle() + "\"" + " AND " + CL_body
+				+ " = " + "\"" + r.getBody() + "\"" + " AND " + CL_time
+				+ " = " + "\"" + r.getTime() + "\"";
+		SQLiteDatabase db=this.getReadableDatabase();
+		db.execSQL(slQuery);
+		return 0;
+	}
 	public void delete(Record r) {
 		try {
 			String sqlQuery = "DELETE FROM " + TB_NAME + " WHERE " + CL_Tittle
