@@ -1,7 +1,6 @@
 package com.example.iremember;
 
 import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -132,7 +131,7 @@ public class FirstScreen extends Activity {
 				iIntent.putExtra("id",r.getId());
 				Toast.makeText(getApplicationContext(), ""+id, 3000).show();
 				startActivity(iIntent);
-				
+
 			}
 			
 		});

@@ -97,8 +97,7 @@
             android:layout_marginTop="5dp"
             android:layout_weight="0.39"
             android:background="#66CCFF"
-            android:drawableTop="@drawable/custom_button_press_audio"
-             />
+            android:drawableTop="@anim/custom_button_press_audio" />
 
         <Button
             android:id="@+id/btnAddVideo"
@@ -107,7 +106,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:background="#66CCFF"
-            android:drawableTop="@drawable/custom_button_press_video" />
+            android:drawableTop="@anim/custom_button_press_video" />
 
         <Button
             android:id="@+id/btnAddPhoto"
@@ -117,7 +116,7 @@
             android:layout_marginTop="5dp"
             android:layout_weight="1.05"
             android:background="#66CCFF"
-            android:drawableTop="@drawable/custom_button_press_addphoto" />
+            android:drawableTop="@anim/custom_button_press_addphoto" />
 
         <Button
             android:id="@+id/btnGetLocation"
