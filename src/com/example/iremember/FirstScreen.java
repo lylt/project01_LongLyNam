@@ -1,33 +1,28 @@
 package com.example.iremember;
 
 import java.util.ArrayList;
+
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.os.Build;
 
 public class FirstScreen extends Activity {
-	Button btnAdd;
+	ImageButton btnAdd;
 	EditText edtFilter;
 	MySQLiteOpenHelper dataHelper;
 	ArrayList<Record> arrRecord;
@@ -42,8 +37,9 @@ public class FirstScreen extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.first_screen);
-		btnAdd = (Button) findViewById(R.id.btnAdd);
+		btnAdd = (ImageButton) findViewById(R.id.btnAdd);
 		edtFilter = (EditText) findViewById(R.id.edtFilter);
 		arrRecord = new ArrayList<Record>();
 		loadData();
@@ -92,7 +88,7 @@ public class FirstScreen extends Activity {
 				alertDialog.setTitle("Delete?");
 				alertDialog.setIcon(R.drawable.al);
 				alertDialog
-						.setMessage("are you sure want to delete this memory? click OK to delete or Cancel");
+						.setMessage("are you sure want to delete?");
 				alertDialog.setButton("OK",
 						new DialogInterface.OnClickListener() {
 

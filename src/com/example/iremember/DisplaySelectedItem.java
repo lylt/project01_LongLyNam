@@ -11,14 +11,17 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
 public class DisplaySelectedItem extends Activity {
 	TextView tvTittle,tvBody,tvTime,tvDisplayLocation;
-	Button btnPlayAudio,btnEdit;
+	ImageButton btnBack,btnEdit;
+	Button btnPlayAudio;
 	MediaPlayer m;
 	String audioPath,videoPath,imagePath,time,location;
 	VideoView vdvVideo;
@@ -26,13 +29,15 @@ public class DisplaySelectedItem extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_display_selected_item);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.display_selected_item);
 		tvDisplayLocation=(TextView) findViewById(R.id.tvDisplayLocation);
 		tvTittle=(TextView) findViewById(R.id.tvTittle);
 		tvBody=(TextView) findViewById(R.id.tvBody);
 		tvTime=(TextView) findViewById(R.id.TVTime);
 		btnPlayAudio=(Button) findViewById(R.id.btnPlayAudio);
-		btnEdit=(Button) findViewById(R.id.btnEdit);
+		btnBack=(ImageButton) findViewById(R.id.btnBack);
+		btnEdit=(ImageButton) findViewById(R.id.btnEdit);
 		vdvVideo= (VideoView) findViewById(R.id.vdvVideo);
 		imgImage= (ImageView) findViewById(R.id.imgImage);
 		Intent i=getIntent();
@@ -53,6 +58,17 @@ public class DisplaySelectedItem extends Activity {
 		}
 		setUpdate();
 		tvDisplayLocation.setText(location);
+	}
+	public void back(){
+		btnBack.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Intent intent= new Intent(getApplicationContext(),FirstScreen.class);
+				startActivity(intent);
+				
+			}
+		});
 	}
 public void audio(){
 	btnPlayAudio.setOnClickListener(new View.OnClickListener() {

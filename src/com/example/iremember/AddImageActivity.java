@@ -22,7 +22,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -37,11 +38,12 @@ public class AddImageActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.addimage);
 		image = (ImageView) findViewById(R.id.imgImage);
-		Button btnChooseImage = (Button) findViewById(R.id.btnChooseImage);
-		Button btnTakePicture = (Button) findViewById(R.id.btnTakePicture);
-		Button btnBack= (Button) findViewById(R.id.btnBack);
+		ImageButton btnChooseImage = (ImageButton) findViewById(R.id.btnChooseImage);
+		ImageButton btnTakePicture = (ImageButton) findViewById(R.id.btnTakePicture);
+		ImageButton btnBack= (ImageButton) findViewById(R.id.btnBack);
 		btnTakePicture.setOnClickListener(new OnClickListener() {
 
 			@Override

@@ -24,8 +24,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,9 +43,9 @@ public class MainActivity extends Activity {
 	private static final int GET_VALUES_IMAGE_ID = 2;
 	public static final int GET_VALUES_AUDIO_ID = 3;
 	EditText edtTittle, edtImageName, edtBody;
-	Button btnCreate, btnAddVideo, btnAddAudio, btnAddLocation, btnAddPhoto,
-			btnUpdate, btnCancel;
-	TextView tvTime, tvLatitude;
+	ImageView  btnAddVideo, btnAddAudio, btnAddLocation, btnAddPhoto,
+			btnBack;
+	TextView tvTime, tvLatitude,btnCreate;
 	private MySQLiteOpenHelper dataHelper;
 	private Cursor cusor;
 	private SimpleAdapter adapter;
@@ -55,7 +58,8 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.main_activity);
 
 		createDirectory();
 		initComponent();
@@ -65,7 +69,7 @@ public class MainActivity extends Activity {
 		getLocation();
 		CreateNew();
 		update();
-		cancel();
+		back();
 	}
 
 	private void createDirectory() {
@@ -101,23 +105,30 @@ public class MainActivity extends Activity {
 		edtTittle.setText("");
 		edtBody = (EditText) findViewById(R.id.edtBody);
 		edtBody.setText("");
-		btnAddAudio = (Button) findViewById(R.id.btnAddAudio);
-		btnAddVideo = (Button) findViewById(R.id.btnAddVideo);
-		btnAddPhoto = (Button) findViewById(R.id.btnAddPhoto);
-		btnCreate = (Button) findViewById(R.id.btnCreate);
+		btnAddAudio = (ImageView) findViewById(R.id.btnAddAudio);
+		btnAddVideo = (ImageView) findViewById(R.id.btnAddVideo);
+		btnAddPhoto = (ImageView) findViewById(R.id.btnAddPhoto);
+		btnCreate = (TextView) findViewById(R.id.btnCreate);
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		btnUpdate = (Button) findViewById(R.id.btnUpdate);
-		btnCancel = (Button) findViewById(R.id.btnCancel);
 		tvTime = (TextView) findViewById(R.id.tvTime);
-		btnAddLocation = (Button) findViewById(R.id.btnGetLocation);
+		btnBack=(ImageView) findViewById(R.id.btnBack);
+		btnAddLocation = (ImageView) findViewById(R.id.btnGetLocation);
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		location = locationManager
 				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		btnUpdate.setEnabled(false);
 		setTimeText();
-		edtBody.setVisibility(View.INVISIBLE);
 	}
-
+	public void back(){
+		btnBack.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent= new Intent(getApplicationContext(),FirstScreen.class);
+				startActivity(intent);
+				
+			}
+		});
+	}
 	public void setTimeText() {
 		Calendar c = Calendar.getInstance();
 		String time = c.get(Calendar.HOUR) + ": " + c.get(Calendar.MINUTE)
@@ -130,15 +141,13 @@ public class MainActivity extends Activity {
 		Intent i=getIntent();
 		final int id=i.getIntExtra("id", -1);
 		if(id!=-1){
-			btnUpdate.setEnabled(true);
-			btnCreate.setEnabled(false);
 			data=i.getStringArrayExtra("data");
 			tvTime.setText(data[2]);
 			edtTittle.setText(data[0]);
 			edtBody.setText(data[1]);
-		}
 		
-		btnUpdate.setOnClickListener(new OnClickListener() {
+		
+		btnCreate.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -148,7 +157,6 @@ public class MainActivity extends Activity {
 				imagePath=data[5];
 				Intent i = getIntent();
 				audioPath = i.getStringExtra("audioPath");
-				btnCreate.setText(audioPath);
 				tittle = edtTittle.getText().toString();
 				body = edtBody.getText().toString();
 				String time = tvTime.getText().toString();
@@ -184,6 +192,7 @@ public class MainActivity extends Activity {
 
 			}
 		});
+	}
 	}
 
 	public void CreateNew() {
@@ -229,6 +238,7 @@ public class MainActivity extends Activity {
 
 			}
 		});
+		
 	}
 
 
@@ -289,7 +299,6 @@ public class MainActivity extends Activity {
         case GET_VALUES_AUDIO_ID: {
             if (Activity.RESULT_OK == resultCode) {
               audioPath= data.getStringExtra(AUDIO_KEY);
-              edtBody.setText(audioPath);
             }
             break;
         }
@@ -367,18 +376,5 @@ public class MainActivity extends Activity {
 			Log.e("tag", e.getMessage());
 		}
 	}
-	public void cancel(){
-		btnCancel.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				if(edtBody.getVisibility()==View.VISIBLE){
-					edtBody.setVisibility(View.GONE);
-				}else{
-					edtBody.setVisibility(View.VISIBLE);
-				}
-				
-			}
-		});
-	}
+
 }

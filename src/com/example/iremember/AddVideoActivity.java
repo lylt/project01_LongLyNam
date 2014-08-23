@@ -13,14 +13,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.widget.Button;
+import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -43,7 +43,8 @@ public class AddVideoActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_add_video);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.add_video);
 	    v= (VideoView) findViewById(R.id.vdvVideo);
 	    v.setOnTouchListener(new OnTouchListener() {
 			
@@ -51,7 +52,7 @@ public class AddVideoActivity extends Activity {
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
 				if(!bVideoIsBeingTouched){
-					playVideo(fileUri.getPath());
+					playVideo(path);
 					bVideoIsBeingTouched=true;
 				}
 				else{
@@ -62,8 +63,17 @@ public class AddVideoActivity extends Activity {
 				return false;
 			}
 		});
-	    
-	    Button btnBack= (Button) findViewById(R.id.btnBack);
+	    ImageButton btnBackToMain=(ImageButton) findViewById(R.id.btnBackToMain);
+	    btnBackToMain.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+				startActivity(intent);
+				
+			}
+		});
+	    ImageButton btnBack= (ImageButton) findViewById(R.id.btnBack);
 	    btnBack.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -76,7 +86,7 @@ public class AddVideoActivity extends Activity {
 				finish();
 			}
 		});
-		Button btnCaptureVideo = (Button) findViewById(R.id.btnCaptureVideo);
+		ImageButton btnCaptureVideo = (ImageButton) findViewById(R.id.btnCaptureVideo);
 		btnCaptureVideo.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -85,7 +95,7 @@ public class AddVideoActivity extends Activity {
 				captureVideo();
 			}
 		});
-		Button btnChooseVideo = (Button) findViewById(R.id.btnChooseVideo);
+		ImageButton btnChooseVideo = (ImageButton) findViewById(R.id.btnChooseVideo);
 		btnChooseVideo.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -97,6 +107,7 @@ public class AddVideoActivity extends Activity {
 	}
 
 	public void captureVideo() {
+		v.setVisibility(View.VISIBLE);
 		Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 		fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
 
@@ -108,6 +119,7 @@ public class AddVideoActivity extends Activity {
 	}
 
 	public void selectVideo() {
+		v.setVisibility(View.VISIBLE);
 		Intent i = new Intent(Intent.ACTION_PICK,
 				android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
 		startActivityForResult(i, RESULT_LOAD_VIDEO);
@@ -148,8 +160,7 @@ public class AddVideoActivity extends Activity {
 				String photoPath = cursor.getString(0);
 				cursor.close();
 				path=photoPath;
-				v.setVideoPath(photoPath);
-				v.start();
+				
 			} else if (resultCode == RESULT_CANCELED) {
 				Toast.makeText(this, "Video recording cancelled.",
 						Toast.LENGTH_LONG).show();
