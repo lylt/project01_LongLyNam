@@ -24,6 +24,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.animation.AnimationUtils;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,14 +39,13 @@ public class MainActivity extends Activity {
 	public static final String FIRST_VALUE_ID = "first_value_id";
 	public static final String IMAGE_KEY = "second_value_id";
 	public static final String AUDIO_KEY = "third_value_id";
-	
+
 	private static final int GET_VALUES_VIDEO_ID = 1;
 	private static final int GET_VALUES_IMAGE_ID = 2;
 	public static final int GET_VALUES_AUDIO_ID = 3;
 	EditText edtTittle, edtImageName, edtBody;
-	ImageView  btnAddVideo, btnAddAudio, btnAddLocation, btnAddPhoto,
-			btnBack;
-	TextView tvTime, tvLatitude,btnCreate;
+	ImageView btnAddVideo, btnAddAudio, btnAddLocation, btnAddPhoto, btnBack;
+	TextView tvTime, tvLatitude, btnCreate;
 	private MySQLiteOpenHelper dataHelper;
 	private Cursor cusor;
 	private SimpleAdapter adapter;
@@ -55,6 +55,7 @@ public class MainActivity extends Activity {
 	GPSTracker gps;
 	double latitude, longitude;
 	String data[] = null;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -111,24 +112,29 @@ public class MainActivity extends Activity {
 		btnCreate = (TextView) findViewById(R.id.btnCreate);
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		tvTime = (TextView) findViewById(R.id.tvTime);
-		btnBack=(ImageView) findViewById(R.id.btnBack);
+		btnBack = (ImageView) findViewById(R.id.btnBack);
 		btnAddLocation = (ImageView) findViewById(R.id.btnGetLocation);
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		location = locationManager
 				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		setTimeText();
 	}
-	public void back(){
+
+	public void back() {
 		btnBack.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				Intent intent= new Intent(getApplicationContext(),FirstScreen.class);
+				v.startAnimation(AnimationUtils.loadAnimation(
+						getApplicationContext(), R.anim.anim_click));
+				Intent intent = new Intent(getApplicationContext(),
+						FirstScreen.class);
 				startActivity(intent);
-				
+
 			}
 		});
 	}
+
 	public void setTimeText() {
 		Calendar c = Calendar.getInstance();
 		String time = c.get(Calendar.HOUR) + ": " + c.get(Calendar.MINUTE)
@@ -138,61 +144,62 @@ public class MainActivity extends Activity {
 	}
 
 	public void update() {
-		Intent i=getIntent();
-		final int id=i.getIntExtra("id", -1);
-		if(id!=-1){
-			data=i.getStringArrayExtra("data");
+		Intent i = getIntent();
+		final int id = i.getIntExtra("id", -1);
+		if (id != -1) {
+			data = i.getStringArrayExtra("data");
 			tvTime.setText(data[2]);
 			edtTittle.setText(data[0]);
 			edtBody.setText(data[1]);
-		
-		
-		btnCreate.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				String audioPath,videoPath,imagePath,tittle,body;
-				audioPath=data[3];
-				videoPath=data[4];
-				imagePath=data[5];
-				Intent i = getIntent();
-				audioPath = i.getStringExtra("audioPath");
-				tittle = edtTittle.getText().toString();
-				body = edtBody.getText().toString();
-				String time = tvTime.getText().toString();
-				String location = "Latitude: " + latitude + " longitude: "
-						+ longitude;
-				if (!tittle.equals("")) {
-					Record r = new Record(tittle, body, time, audioPath,
-							videoPath, imagePath, location);
-					dataHelper.UPDATE_Record(r,id);
-					dataHelper.close();
-					Toast.makeText(MainActivity.this, "created successfuly",
-							30000).show();
-					Intent mIntent = new Intent(getApplicationContext(),
-							FirstScreen.class);
-					startActivity(mIntent);
-				} else {
-					AlertDialog alertdialog = new AlertDialog.Builder(
-							MainActivity.this).create();
-					alertdialog.setTitle("iRemember");
-					alertdialog.setMessage("tittle should be filled");
-					alertdialog.setButton("OK",
-							new DialogInterface.OnClickListener() {
+			btnCreate.setOnClickListener(new OnClickListener() {
 
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									// TODO Auto-generated method stub
+				@Override
+				public void onClick(View v) {
+					v.startAnimation(AnimationUtils.loadAnimation(
+							getApplicationContext(), R.anim.anim_click));
+					String audioPath, videoPath, imagePath, tittle, body;
+					audioPath = data[3];
+					videoPath = data[4];
+					imagePath = data[5];
+					Intent i = getIntent();
+					audioPath = i.getStringExtra("audioPath");
+					tittle = edtTittle.getText().toString();
+					body = edtBody.getText().toString();
+					String time = tvTime.getText().toString();
+					String location = "Latitude: " + latitude + " longitude: "
+							+ longitude;
+					if (!tittle.equals("")) {
+						Record r = new Record(tittle, body, time, audioPath,
+								videoPath, imagePath, location);
+						dataHelper.UPDATE_Record(r, id);
+						dataHelper.close();
+						Toast.makeText(MainActivity.this,
+								"created successfuly", 30000).show();
+						Intent mIntent = new Intent(getApplicationContext(),
+								FirstScreen.class);
+						startActivity(mIntent);
+					} else {
+						AlertDialog alertdialog = new AlertDialog.Builder(
+								MainActivity.this).create();
+						alertdialog.setTitle("iRemember");
+						alertdialog.setMessage("tittle should be filled");
+						alertdialog.setButton("OK",
+								new DialogInterface.OnClickListener() {
 
-								}
-							});
-					alertdialog.show();
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										// TODO Auto-generated method stub
+
+									}
+								});
+						alertdialog.show();
+					}
+
 				}
-
-			}
-		});
-	}
+			});
+		}
 	}
 
 	public void CreateNew() {
@@ -200,6 +207,8 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				v.startAnimation(AnimationUtils.loadAnimation(
+						getApplicationContext(), R.anim.anim_click));
 				String tittle = "";
 				String body = "";
 				Intent i = getIntent();
@@ -238,15 +247,16 @@ public class MainActivity extends Activity {
 
 			}
 		});
-		
-	}
 
+	}
 
 	public void addVideo() {
 		btnAddVideo.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
+				v.startAnimation(AnimationUtils.loadAnimation(
+						getApplicationContext(), R.anim.anim_click));
 				Intent addVideoIntent = new Intent(getApplicationContext(),
 						AddVideoActivity.class);
 				// startActivity(addVideoIntent);
@@ -260,8 +270,12 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent addAudioIntent= new Intent(getApplicationContext(),AddAudioActivity.class);
-				startActivityForResult(addAudioIntent,GET_VALUES_AUDIO_ID);		
+				v.startAnimation(AnimationUtils.loadAnimation(
+						getApplicationContext(), R.anim.anim_click));
+
+				Intent addAudioIntent = new Intent(getApplicationContext(),
+						AddAudioActivity.class);
+				startActivityForResult(addAudioIntent, GET_VALUES_AUDIO_ID);
 			}
 		});
 	}
@@ -271,7 +285,8 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				v.startAnimation(AnimationUtils.loadAnimation(
+						getApplicationContext(), R.anim.anim_click));
 				Intent addPhotoIntent = new Intent(getApplicationContext(),
 						AddImageActivity.class);
 				startActivityForResult(addPhotoIntent, GET_VALUES_IMAGE_ID);
@@ -295,13 +310,13 @@ public class MainActivity extends Activity {
 			}
 			break;
 		}
-		 
-        case GET_VALUES_AUDIO_ID: {
-            if (Activity.RESULT_OK == resultCode) {
-              audioPath= data.getStringExtra(AUDIO_KEY);
-            }
-            break;
-        }
+
+		case GET_VALUES_AUDIO_ID: {
+			if (Activity.RESULT_OK == resultCode) {
+				audioPath = data.getStringExtra(AUDIO_KEY);
+			}
+			break;
+		}
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
@@ -311,7 +326,8 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-
+				v.startAnimation(AnimationUtils.loadAnimation(
+						getApplicationContext(), R.anim.anim_click));
 				gps = new GPSTracker(MainActivity.this);
 
 				// check if GPS enabled
@@ -332,7 +348,7 @@ public class MainActivity extends Activity {
 					Intent mapIntent = new Intent(
 							android.content.Intent.ACTION_VIEW, uri);
 					getAddress();
-					 //startActivity(mapIntent);
+					// startActivity(mapIntent);
 				} else {
 					gps.showSettingsAlert();
 				}

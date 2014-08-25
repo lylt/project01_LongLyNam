@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.animation.AnimationUtils;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -68,6 +69,7 @@ public class AddVideoActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				v.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_click));
 				Intent intent=new Intent(getApplicationContext(),MainActivity.class);
 				startActivity(intent);
 				
@@ -79,7 +81,7 @@ public class AddVideoActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-
+				v.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_click));
 				Intent main= new Intent();
 				main.putExtra(MainActivity.FIRST_VALUE_ID, path);
 				setResult(Activity.RESULT_OK, main);
@@ -91,6 +93,7 @@ public class AddVideoActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				v.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_click));
 				// TODO Auto-generated method stub
 				captureVideo();
 			}
@@ -100,7 +103,7 @@ public class AddVideoActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				v.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_click));
 				selectVideo();
 			}
 		});

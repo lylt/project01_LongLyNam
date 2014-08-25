@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.animation.AnimationUtils;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -25,21 +26,20 @@ public class DisplaySelectedItem extends Activity {
 	MediaPlayer m;
 	String audioPath,videoPath,imagePath,time,location;
 	VideoView vdvVideo;
-	ImageView imgImage;
+	ImageView imageImage;
+	boolean bVideoIsBeingTouched=false,isplaying=false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.display_selected_item);
-		tvDisplayLocation=(TextView) findViewById(R.id.tvDisplayLocation);
-		tvTittle=(TextView) findViewById(R.id.tvTittle);
-		tvBody=(TextView) findViewById(R.id.tvBody);
-		tvTime=(TextView) findViewById(R.id.TVTime);
-		btnPlayAudio=(Button) findViewById(R.id.btnPlayAudio);
-		btnBack=(ImageButton) findViewById(R.id.btnBack);
-		btnEdit=(ImageButton) findViewById(R.id.btnEdit);
-		vdvVideo= (VideoView) findViewById(R.id.vdvVideo);
-		imgImage= (ImageView) findViewById(R.id.imgImage);
+		initComponent();
+		initData();
+		back();
+		setUpdate();
+		tvDisplayLocation.setText(location);
+	}
+	private void initData() {
 		Intent i=getIntent();
 		final String data[]=i.getStringArrayExtra("data");
 		tvTittle.setText(data[0]);
@@ -56,14 +56,24 @@ public class DisplaySelectedItem extends Activity {
 		if(imagePath!=null){
 			displayImage();
 		}
-		setUpdate();
-		tvDisplayLocation.setText(location);
+	}
+	private void initComponent() {
+		tvDisplayLocation=(TextView) findViewById(R.id.tvDisplayLocation);
+		tvTittle=(TextView) findViewById(R.id.tvTittle);
+		tvBody=(TextView) findViewById(R.id.tvBody);
+		tvTime=(TextView) findViewById(R.id.TVTime);
+		btnPlayAudio=(Button) findViewById(R.id.btnPlayAudio);
+		btnBack=(ImageButton) findViewById(R.id.btnBack);
+		btnEdit=(ImageButton) findViewById(R.id.btnEdit);
+		vdvVideo= (VideoView) findViewById(R.id.vdvVideo);
+		imageImage= (ImageView) findViewById(R.id.imageImage);
 	}
 	public void back(){
 		btnBack.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View v) {
+				v.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_click));
 				Intent intent= new Intent(getApplicationContext(),FirstScreen.class);
 				startActivity(intent);
 				
@@ -75,30 +85,53 @@ public void audio(){
 		
 		@Override
 		public void onClick(View v) {
-			try{
-			m= new MediaPlayer();
-			m.setDataSource(audioPath);
-			m.prepare();
-			m.start();}catch(Exception e){}
+			v.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_click));
+			if (isplaying == false) {
+				try {
+					m = new MediaPlayer();
+					m.setDataSource(audioPath);
+					m.prepare();
+					m.start();
+					btnPlayAudio.setText("Stop Audio");
+					isplaying = true;
+				} catch (Exception e) {
+				}
+			} else {
+				m.stop();
+				isplaying = false;
+				btnPlayAudio.setText("Play Audio");
+
+			}
 		}
 	});
 }
 public void disPlayVideo(){
-	vdvVideo.setVideoPath(videoPath);
+	int width = getWindowManager().getDefaultDisplay().getWidth();
+	int height = getWindowManager().getDefaultDisplay().getHeight();
+	vdvVideo.getLayoutParams().width = width;
+	vdvVideo.getLayoutParams().height = height;
 	vdvVideo.setOnTouchListener(new OnTouchListener() {
-		
+
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 			// TODO Auto-generated method stub
+			if(!bVideoIsBeingTouched){
+				vdvVideo.setVideoPath(videoPath);
+				vdvVideo.start();
+				bVideoIsBeingTouched=true;
+			}
+			else{
+				vdvVideo.stopPlayback();
+				bVideoIsBeingTouched=false;
+			}
 			
-			vdvVideo.start();
 			return false;
 		}
 	});
 }
 public void displayImage(){
 	Bitmap bit = BitmapFactory.decodeFile(imagePath);
-	imgImage.setImageBitmap(bit);
+	imageImage.setImageBitmap(bit);
 }
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -123,6 +156,7 @@ public void displayImage(){
 			
 			@Override
 			public void onClick(View v) {
+				v.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_click));
 				Intent mIntent=new Intent(getApplicationContext(),MainActivity.class);
 				mIntent.putExtra("id", id);
 				String data[]={tvTittle.getText().toString(),tvBody.getText().toString(),

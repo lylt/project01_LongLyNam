@@ -9,19 +9,20 @@ package com.example.iremember;
 
 public final class R {
     public static final class anim {
-        public static final int custom_button_addrecord=0x7f040000;
-        public static final int custom_button_press_addphoto=0x7f040001;
-        public static final int custom_button_press_audio=0x7f040002;
-        public static final int custom_button_press_location=0x7f040003;
-        public static final int custom_button_press_video=0x7f040004;
-        public static final int cycle_7=0x7f040005;
-        public static final int fadein=0x7f040006;
-        public static final int push_left_in=0x7f040007;
-        public static final int push_left_out=0x7f040008;
-        public static final int push_right_in=0x7f040009;
-        public static final int push_right_out=0x7f04000a;
-        public static final int rotation=0x7f04000b;
-        public static final int shake=0x7f04000c;
+        public static final int anim_click=0x7f040000;
+        public static final int custom_button_addrecord=0x7f040001;
+        public static final int custom_button_press_addphoto=0x7f040002;
+        public static final int custom_button_press_audio=0x7f040003;
+        public static final int custom_button_press_location=0x7f040004;
+        public static final int custom_button_press_video=0x7f040005;
+        public static final int cycle_7=0x7f040006;
+        public static final int fadein=0x7f040007;
+        public static final int push_left_in=0x7f040008;
+        public static final int push_left_out=0x7f040009;
+        public static final int push_right_in=0x7f04000a;
+        public static final int push_right_out=0x7f04000b;
+        public static final int rotation=0x7f04000c;
+        public static final int shake=0x7f04000d;
     }
     public static final class attr {
     }
