@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnTouchListener;
 import android.view.animation.AnimationUtils;
 import android.view.Window;
@@ -20,7 +21,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 public class DisplaySelectedItem extends Activity {
-	TextView tvTittle,tvBody,tvTime,tvDisplayLocation;
+	TextView tvTittle,tvBody,tvTime;
 	ImageButton btnBack,btnEdit;
 	Button btnPlayAudio;
 	MediaPlayer m;
@@ -32,13 +33,15 @@ public class DisplaySelectedItem extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.display_selected_item);
 		initComponent();
 		initData();
 		back();
 		setUpdate();
-		tvDisplayLocation.setText(location);
 	}
+	//get data of each record
 	private void initData() {
 		Intent i=getIntent();
 		final String data[]=i.getStringArrayExtra("data");
@@ -50,15 +53,14 @@ public class DisplaySelectedItem extends Activity {
 		imagePath=data[5];
 		location=data[6];
 		if(audioPath!=null)
-		audio();
+		playAudio();
 		if(videoPath!=null)
-		disPlayVideo();
+		displayVideo();
 		if(imagePath!=null){
 			displayImage();
 		}
 	}
 	private void initComponent() {
-		tvDisplayLocation=(TextView) findViewById(R.id.tvDisplayLocation);
 		tvTittle=(TextView) findViewById(R.id.tvTittle);
 		tvBody=(TextView) findViewById(R.id.tvBody);
 		tvTime=(TextView) findViewById(R.id.TVTime);
@@ -68,7 +70,8 @@ public class DisplaySelectedItem extends Activity {
 		vdvVideo= (VideoView) findViewById(R.id.vdvVideo);
 		imageImage= (ImageView) findViewById(R.id.imageImage);
 	}
-	public void back(){
+	//back to first screen
+public void back(){
 		btnBack.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -80,7 +83,8 @@ public class DisplaySelectedItem extends Activity {
 			}
 		});
 	}
-public void audio(){
+// play audio
+public void playAudio(){
 	btnPlayAudio.setOnClickListener(new View.OnClickListener() {
 		
 		@Override
@@ -105,7 +109,8 @@ public void audio(){
 		}
 	});
 }
-public void disPlayVideo(){
+//load and play video
+public void displayVideo(){
 	int width = getWindowManager().getDefaultDisplay().getWidth();
 	int height = getWindowManager().getDefaultDisplay().getHeight();
 	vdvVideo.getLayoutParams().width = width;
@@ -129,6 +134,7 @@ public void disPlayVideo(){
 		}
 	});
 }
+//load and display photo
 public void displayImage(){
 	Bitmap bit = BitmapFactory.decodeFile(imagePath);
 	imageImage.setImageBitmap(bit);
@@ -149,6 +155,7 @@ public void displayImage(){
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	// update information of record
 	public void setUpdate(){
 		Intent i=getIntent();
 		final int id=i.getIntExtra("id", -1);

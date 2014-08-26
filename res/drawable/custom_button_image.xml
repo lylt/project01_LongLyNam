@@ -8,7 +8,7 @@
         android:right="5dp"
         android:top="5dp" />
 
-    <solid android:color="#22A7F0" />
+    <solid android:color="#F1A9A0" />
 
     <stroke
         android:width="0.1dp"

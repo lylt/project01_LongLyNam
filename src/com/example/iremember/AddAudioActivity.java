@@ -19,6 +19,7 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
 import android.view.Window;
@@ -28,8 +29,9 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 public class AddAudioActivity extends Activity {
-	ImageButton btnRecordAudio, btnChooseAudio, btnPlay, btnBackToMainActivity,btnBack;
+	ImageButton  btnPlay, btnBack;
 	MediaPlayer m;
+	Button btnRecordAudio, btnSaveAudio,btnChooseAudio;
 	SeekBar seekBar;
 	String outputFile = null;
 	Intent i;
@@ -48,39 +50,44 @@ public class AddAudioActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.add_audio);
-		btnRecordAudio = (ImageButton) findViewById(R.id.btnRecord);
-		btnChooseAudio = (ImageButton) findViewById(R.id.btnChooseAudio);
+		initComponent();
+		recordAudio();
+		chooseAudio();
+		playAudio();
+		save();
+		back();
+	}
+
+	private void initComponent() {
+		btnRecordAudio = (Button) findViewById(R.id.btnRecord);
+		btnChooseAudio = (Button) findViewById(R.id.btnChooseAudio);
 		seekBar = (SeekBar) findViewById(R.id.seekBar);
 		btnPlay = (ImageButton) findViewById(R.id.btnPlay);
-		btnBackToMainActivity = (ImageButton) findViewById(R.id.btnBackToMainActivity);
+		btnSaveAudio = (Button) findViewById(R.id.btnBackToMainActivity);
 		btnBack=(ImageButton) findViewById(R.id.btnBack);
 		myAudioRecorder = new MediaRecorder();
 		
 		myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 		myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
 		myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-
-		recordAudio();
-		chooseAudio();
-		play();
-		backToMain();
-		back();
 	}
 
-	// save in folder IRemember3/Audio
+	// back to Main Activity
 	public void back(){
 		btnBack.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
-				v.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_click));
+				btnBack.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_click));
 				Intent intent= new Intent(getApplicationContext(),MainActivity.class);
 				startActivity(intent);
 			}
 		});
 	}
-	private static File getOutputImageFile(int type) {
+	// create folder contains audio files and get path from these file
+	private static File getOutputAudioFile(int type) {
 
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
 				Locale.getDefault()).format(new Date());
@@ -122,19 +129,17 @@ public class AddAudioActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
+// record audio
 	public void recordAudio() {
 
 		btnRecordAudio.setOnClickListener(new OnClickListener() {
-
+			
 			@Override
 			public void onClick(View v) {
 				v.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_click));
 				if (!isRecording) {
-					outputFile = getOutputImageFile(MEDIA_TYPE_AUDIO).getPath();
+					outputFile = getOutputAudioFile(MEDIA_TYPE_AUDIO).getPath();
 					myAudioRecorder.setOutputFile(outputFile);
-					//btnRecordAudio.setBackgroundResource(R.drawable.stop);
-					//
 					try {
 						myAudioRecorder.prepare();
 						myAudioRecorder.start();
@@ -149,7 +154,6 @@ public class AddAudioActivity extends Activity {
 					myAudioRecorder.stop();
 					myAudioRecorder.release();
 					myAudioRecorder = null;
-					btnRecordAudio.setBackgroundResource(R.drawable.stop);
 					isRecording = false;
 					Toast.makeText(getApplicationContext(),
 							"audiorecording stopped", 3000).show();
@@ -158,7 +162,7 @@ public class AddAudioActivity extends Activity {
 			}
 		});
 	}
-
+// choose audio from external file
 	public void chooseAudio() {
 		btnChooseAudio.setOnClickListener(new OnClickListener() {
 
@@ -203,8 +207,8 @@ public class AddAudioActivity extends Activity {
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
-
-	public void play() {
+// play audio
+	public void playAudio() {
 		btnPlay.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -219,7 +223,6 @@ public class AddAudioActivity extends Activity {
 						m.prepare();
 						m.start();
 						isplaying = true;
-						//btnPlay.setBackgroundResource(R.drawable.stop);
 						Toast.makeText(getApplicationContext(),
 								"Playing audio", Toast.LENGTH_LONG).show();
 						seekBar.setMax(m.getDuration());
@@ -256,9 +259,9 @@ public void pause(){
 
 		}
 	};
-
-	public void backToMain() {
-		btnBackToMainActivity.setOnClickListener(new OnClickListener() {
+//save audio
+	public void save() {
+		btnSaveAudio.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {

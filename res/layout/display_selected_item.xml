@@ -3,7 +3,7 @@
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@drawable/redlightbackground"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -13,7 +13,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:background="#F5AB35"
+        android:background="#F64747"
         android:orientation="vertical" >
 
         <TextView
@@ -23,9 +23,11 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:background="#F5AB35"
+            android:background="@android:color/transparent"
             android:gravity="center"
             android:text="iRemember"
+            android:textSize="30dp"
+            android:textStyle="bold"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#FFFFFF" />
 
@@ -73,7 +75,7 @@
                 android:drawableLeft="@drawable/tittle"
                 android:text="Travel in da Nang"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#F5AB35" />
+                android:textColor="#F64747" />
 
             <ScrollView
                 android:id="@+id/scrollView2"
@@ -90,8 +92,8 @@
                     android:background="@drawable/custom_border_textview"
                     android:drawableLeft="@drawable/body"
                     android:text="body bla la..."
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#F5AB35" />
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#F64747" />
             </ScrollView>
 
             <TextView
@@ -107,20 +109,7 @@
                 android:drawableLeft="@drawable/date"
                 android:text="Time"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#F5AB35" />
-
-            <TextView
-                android:id="@+id/tvDisplayLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/custom_border_textview"
-                android:drawableLeft="@drawable/location"
-                android:text="location"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#F5AB35" />
+                android:textColor="#F64747" />
 
             <VideoView
                 android:id="@+id/vdvVideo"
@@ -143,8 +132,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_marginLeft="10dp"
-                android:background="#F5AB35"
+                android:background="#F64747"
                 android:text="Play audio"
+                android:textStyle="bold"
                 android:textColor="#FFFFFF" />
 
         </LinearLayout>

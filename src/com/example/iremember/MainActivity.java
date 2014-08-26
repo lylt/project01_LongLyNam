@@ -20,15 +20,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.view.animation.AnimationUtils;
 import android.view.Window;
-import android.widget.Button;
+import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -60,6 +59,8 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.main_activity);
 
 		createDirectory();
@@ -72,7 +73,7 @@ public class MainActivity extends Activity {
 		update();
 		back();
 	}
-
+// create folder contains files
 	private void createDirectory() {
 		File newVideoFolder = new File(Environment
 				.getExternalStorageDirectory().getAbsolutePath()
@@ -119,7 +120,7 @@ public class MainActivity extends Activity {
 				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		setTimeText();
 	}
-
+// back to first Screen
 	public void back() {
 		btnBack.setOnClickListener(new OnClickListener() {
 
@@ -134,7 +135,7 @@ public class MainActivity extends Activity {
 			}
 		});
 	}
-
+// get time and display system's time
 	public void setTimeText() {
 		Calendar c = Calendar.getInstance();
 		String time = c.get(Calendar.HOUR) + ": " + c.get(Calendar.MINUTE)
@@ -142,7 +143,7 @@ public class MainActivity extends Activity {
 				+ " - " + c.get(Calendar.YEAR);
 		tvTime.setText(time);
 	}
-
+//update 
 	public void update() {
 		Intent i = getIntent();
 		final int id = i.getIntExtra("id", -1);
@@ -156,8 +157,8 @@ public class MainActivity extends Activity {
 
 				@Override
 				public void onClick(View v) {
-					v.startAnimation(AnimationUtils.loadAnimation(
-							getApplicationContext(), R.anim.anim_click));
+					//v.startAnimation(AnimationUtils.loadAnimation(
+					//		getApplicationContext(), R.anim.anim_click));
 					String audioPath, videoPath, imagePath, tittle, body;
 					audioPath = data[3];
 					videoPath = data[4];
@@ -201,14 +202,14 @@ public class MainActivity extends Activity {
 			});
 		}
 	}
-
+// create new record
 	public void CreateNew() {
 		btnCreate.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				v.startAnimation(AnimationUtils.loadAnimation(
-						getApplicationContext(), R.anim.anim_click));
+			//	v.startAnimation(AnimationUtils.loadAnimation(
+				//		getApplicationContext(), R.anim.anim_click));
 				String tittle = "";
 				String body = "";
 				Intent i = getIntent();
@@ -249,14 +250,14 @@ public class MainActivity extends Activity {
 		});
 
 	}
-
+// add video
 	public void addVideo() {
 		btnAddVideo.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				v.startAnimation(AnimationUtils.loadAnimation(
-						getApplicationContext(), R.anim.anim_click));
+				//v.startAnimation(AnimationUtils.loadAnimation(
+				//		getApplicationContext(), R.anim.anim_click));
 				Intent addVideoIntent = new Intent(getApplicationContext(),
 						AddVideoActivity.class);
 				// startActivity(addVideoIntent);
@@ -264,29 +265,29 @@ public class MainActivity extends Activity {
 			}
 		});
 	}
-
+// add audio
 	public void addAudio() {
 		btnAddAudio.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				v.startAnimation(AnimationUtils.loadAnimation(
-						getApplicationContext(), R.anim.anim_click));
 
+				
 				Intent addAudioIntent = new Intent(getApplicationContext(),
 						AddAudioActivity.class);
 				startActivityForResult(addAudioIntent, GET_VALUES_AUDIO_ID);
 			}
 		});
 	}
-
+// add photos
 	public void addPhoto() {
 		btnAddPhoto.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				v.startAnimation(AnimationUtils.loadAnimation(
-						getApplicationContext(), R.anim.anim_click));
+			//	v.startAnimation(AnimationUtils.loadAnimation(
+				//		getApplicationContext(), R.anim.anim_click));
+				
 				Intent addPhotoIntent = new Intent(getApplicationContext(),
 						AddImageActivity.class);
 				startActivityForResult(addPhotoIntent, GET_VALUES_IMAGE_ID);
@@ -320,14 +321,12 @@ public class MainActivity extends Activity {
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
-
+// get longitude and latitude of current location
 	public void getLocation() {
 		btnAddLocation.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				v.startAnimation(AnimationUtils.loadAnimation(
-						getApplicationContext(), R.anim.anim_click));
 				gps = new GPSTracker(MainActivity.this);
 
 				// check if GPS enabled
@@ -336,19 +335,23 @@ public class MainActivity extends Activity {
 					longitude = gps.getLongitude();
 					// latitude = 20.213073;
 					// longitude = 105.661011;
-					String label = "I'm Here!";
-					String uriBegin = "geo:" + latitude + "," + longitude;
-					String query = latitude + "," + longitude + "(" + label
-							+ ")";
-					String encodedQuery = Uri.encode(query);
-					String uriString = uriBegin + "?q=" + encodedQuery
-							+ "&z=16";
-					Uri uri = Uri.parse(uriString);
-					Toast.makeText(getApplicationContext(), uriBegin, 5000);
-					Intent mapIntent = new Intent(
-							android.content.Intent.ACTION_VIEW, uri);
-					getAddress();
+//					String label = "I'm Here!";
+//					String uriBegin = "geo:" + latitude + "," + longitude;
+//					String query = latitude + "," + longitude + "(" + label
+//							+ ")";
+//					String encodedQuery = Uri.encode(query);
+//					String uriString = uriBegin + "?q=" + encodedQuery
+//							+ "&z=16";
+//					Uri uri = Uri.parse(uriString);
+//					Toast.makeText(getApplicationContext(), uriBegin, 5000);
+//					Intent mapIntent = new Intent(
+//							android.content.Intent.ACTION_VIEW, uri);
+//					getAddress();
 					// startActivity(mapIntent);
+					String mapPath = "http://maps.google.com/maps?q=+"+longitude+","+latitude+"&t=m&z=7";
+					Intent mIntent=new Intent(getApplicationContext(),Activity_Location.class);
+					mIntent.putExtra("mapPath",mapPath);
+					startActivity(mIntent);
 				} else {
 					gps.showSettingsAlert();
 				}
@@ -357,7 +360,7 @@ public class MainActivity extends Activity {
 		});
 
 	}
-
+// get name of current location
 	public void getAddress() {
 		try {
 			Geocoder geocoder = new Geocoder(MainActivity.this, Locale.ENGLISH);
@@ -392,5 +395,4 @@ public class MainActivity extends Activity {
 			Log.e("tag", e.getMessage());
 		}
 	}
-
 }

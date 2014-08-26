@@ -2,15 +2,15 @@
     android:shape="rectangle" >
 
     <padding
-        android:bottom="20dp"
-        android:left="10dp"
+        android:bottom="10dp"
+        android:left="5dp"
         android:right="10dp"
-        android:top="10dp" />
+        android:top="5dp" />
 
     <solid android:color="#ffffff" />
     <stroke
-        android:width="0.1dp"
-        android:color="#F5AB35" />
+        android:width="0.2dp"
+        android:color="#54A4DE" />
 
     
 

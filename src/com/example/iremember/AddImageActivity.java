@@ -20,9 +20,12 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.animation.AnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -30,6 +33,8 @@ import android.widget.Toast;
 public class AddImageActivity extends Activity {
 
 	ImageView image;
+	ImageButton btnChooseImage,btnTakePicture,btnBack;
+	Button btnSave;
 	static final int REQUEST_IMAGE_CAPTURE = 200;
 	private static final int RESULT_LOAD_IMAGE = 100;
 	public static final int MEDIA_TYPE_IMAGE = 1;
@@ -39,33 +44,44 @@ public class AddImageActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.addimage);
-		image = (ImageView) findViewById(R.id.imgImage);
-		ImageButton btnChooseImage = (ImageButton) findViewById(R.id.btnChooseImage);
-		ImageButton btnTakePicture = (ImageButton) findViewById(R.id.btnTakePicture);
-		ImageButton btnBack= (ImageButton) findViewById(R.id.btnBack);
+		initComponent();
+		setBtnTakePicture();
+		setBtnChooseImage();
+		setBtnSave();
+		setBtnBack();
+	}
+	
+	private void setBtnTakePicture() {
 		btnTakePicture.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				
 				takePicture();
 			}
 		});
+	}
+
+	private void setBtnChooseImage() {
 		btnChooseImage.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				v.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_click));
 				chooseImage();
 			}
 		});
-		
-		btnBack.setOnClickListener(new OnClickListener() {
+	}
+
+	private void setBtnSave() {
+		btnSave.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				v.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_click));
 				Intent main= new Intent();
 				main.putExtra(MainActivity.IMAGE_KEY, path);
 				setResult(Activity.RESULT_OK, main);
@@ -74,6 +90,24 @@ public class AddImageActivity extends Activity {
 		});
 	}
 
+	private void initComponent() {
+		btnBack=(ImageButton) findViewById(R.id.btnBACK);
+		image = (ImageView) findViewById(R.id.imgImage);
+		btnChooseImage = (ImageButton) findViewById(R.id.btnChooseImage);
+		btnTakePicture = (ImageButton) findViewById(R.id.btnTakePicture);
+		btnSave= (Button) findViewById(R.id.btnBack);
+	}
+private void setBtnBack(){
+	btnBack.setOnClickListener(new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			v.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_click));
+			Intent mIntent=new Intent(getApplicationContext(),MainActivity.class);
+			startActivity(mIntent);
+		}
+	});
+}
 	// using camera to take a picture
 	public void takePicture() {
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

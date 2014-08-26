@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -30,6 +31,7 @@ public class FirstScreen extends Activity {
 	ListView listview;
 	RecordAdapter arrAdapter;
 	ArrayAdapter<String> adapter;
+	//add record to listview
 	public void addRecord(Record r) {
 		arrRecord.add(0, r);
 		arrAdapter.notifyDataSetChanged();
@@ -39,6 +41,8 @@ public class FirstScreen extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.first_screen);
 		btnAdd = (ImageButton) findViewById(R.id.btnAdd);
 		edtFilter = (EditText) findViewById(R.id.edtFilter);
@@ -49,6 +53,7 @@ public class FirstScreen extends Activity {
 		displaySelectedItem();
 
 	}
+	//add record 
 	public void add(){
 		btnAdd.setOnClickListener(new OnClickListener() {
 
@@ -77,7 +82,9 @@ public class FirstScreen extends Activity {
 		
 	}
 
-	public void onLongClickItem() {
+	//set long on item to delete record
+	
+public void onLongClickItem() {
 		listview.setOnItemLongClickListener(new OnItemLongClickListener() {
 
 			@Override
@@ -116,6 +123,7 @@ public class FirstScreen extends Activity {
 			}
 		});
 	}
+// display for detail
 	public void displaySelectedItem(){
 		listview.setOnItemClickListener(new OnItemClickListener() {
 
@@ -134,7 +142,8 @@ public class FirstScreen extends Activity {
 			
 		});
 	}
-	public void Filter(){
+	// filter by Tittle
+public void Filter(){
 		edtFilter.addTextChangedListener(new TextWatcher() {
 			
 			@Override
