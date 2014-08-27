@@ -208,8 +208,8 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-			//	v.startAnimation(AnimationUtils.loadAnimation(
-				//		getApplicationContext(), R.anim.anim_click));
+				v.startAnimation(AnimationUtils.loadAnimation(
+						getApplicationContext(), R.anim.anim_click));
 				String tittle = "";
 				String body = "";
 				Intent i = getIntent();
@@ -333,22 +333,7 @@ public class MainActivity extends Activity {
 				if (gps.canGetLocation()) {
 					latitude = gps.getLatitude();
 					longitude = gps.getLongitude();
-					// latitude = 20.213073;
-					// longitude = 105.661011;
-//					String label = "I'm Here!";
-//					String uriBegin = "geo:" + latitude + "," + longitude;
-//					String query = latitude + "," + longitude + "(" + label
-//							+ ")";
-//					String encodedQuery = Uri.encode(query);
-//					String uriString = uriBegin + "?q=" + encodedQuery
-//							+ "&z=16";
-//					Uri uri = Uri.parse(uriString);
-//					Toast.makeText(getApplicationContext(), uriBegin, 5000);
-//					Intent mapIntent = new Intent(
-//							android.content.Intent.ACTION_VIEW, uri);
-//					getAddress();
-					// startActivity(mapIntent);
-					String mapPath = "http://maps.google.com/maps?q=+"+longitude+","+latitude+"&t=m&z=7";
+					String mapPath = "http://maps.google.com/maps?q=+"+latitude+","+longitude+"&t=m&z=7";
 					Intent mIntent=new Intent(getApplicationContext(),Activity_Location.class);
 					mIntent.putExtra("mapPath",mapPath);
 					startActivity(mIntent);
@@ -358,6 +343,7 @@ public class MainActivity extends Activity {
 
 			}
 		});
+		getAddress();
 
 	}
 // get name of current location

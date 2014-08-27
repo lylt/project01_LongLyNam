@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
@@ -27,8 +28,9 @@ public class Activity_Location extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-			Intent mIntent=new Intent(getApplicationContext(),MainActivity.class);
-			startActivity(mIntent);
+				v.startAnimation(AnimationUtils.loadAnimation(
+						getApplicationContext(), R.anim.anim_click));
+			finish();
 			
 				
 			}

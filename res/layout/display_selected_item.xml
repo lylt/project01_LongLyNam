@@ -31,7 +31,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#FFFFFF" />
 
-        <ImageButton
+        <Button
             android:id="@+id/btnEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,7 +39,9 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:background="@android:color/transparent"
-            android:src="@drawable/edit" />
+            android:text="Edit"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/btnBack"
@@ -115,8 +117,7 @@
                 android:id="@+id/vdvVideo"
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
-                android:layout_margin="10dp"
-                android:layout_weight="1.40" />
+                android:layout_margin="10dp" />
 
             <ImageView
                 android:id="@+id/imageImage"
@@ -124,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="0.75"
-                android:src="@drawable/picture" />
+                android:src="@drawable/trav" />
 
             <Button
                 android:id="@+id/btnPlayAudio"

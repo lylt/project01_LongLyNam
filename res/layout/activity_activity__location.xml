@@ -31,14 +31,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/imgBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/Webview"
                 android:layout_alignParentLeft="true"
-                android:background="@android:color/transparent"
-                android:src="@drawable/back_map" />
+                android:layout_alignParentRight="true"
+                android:background="#52B3D9"
+                android:drawableLeft="@drawable/back"
+                 />
 
         </RelativeLayout>
     </LinearLayout>

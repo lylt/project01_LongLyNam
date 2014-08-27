@@ -1,85 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/roundborder" >
+    android:layout_height="fill_parent"
+    android:background="@drawable/editbox2"
+    android:orientation="horizontal" >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_width="70dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/textView3"
+        <ImageView
+            android:id="@+id/imgView"
             android:layout_width="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
-            android:text="Tittle: "
-            android:textColor="#F5AB35"
-            android:layout_marginLeft="10dp"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:src="@drawable/trav" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="76dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/tvtittle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="30dp"
-            android:text="Memory in Da Nang"
+            android:text="Large Text"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#F5AB35" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:text="Body: "
-            android:textColor="#F5AB35"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/tvBbody"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="42dp"
-            android:layout_marginTop="10dp"
-            android:text="travel in Dan Nang"
-            android:textColor="#F5AB35"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:textColor="#F5AB35"
-            android:text="Time: "
-            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10AM"
-            android:textColor="#F5AB35"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="30dp"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#F5AB35" />
     </LinearLayout>
 
 </LinearLayout>

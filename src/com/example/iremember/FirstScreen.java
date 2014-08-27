@@ -135,7 +135,6 @@ public void onLongClickItem() {
 				String data[]={r.getTittle(),r.getBody(),r.getTime(),r.getAudioPath(),r.getVideoPath(),r.getImagePath(),r.getLocation()};
 				iIntent.putExtra("data", data);
 				iIntent.putExtra("id",r.getId());
-				Toast.makeText(getApplicationContext(), ""+id, 3000).show();
 				startActivity(iIntent);
 
 			}

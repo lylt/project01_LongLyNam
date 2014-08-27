@@ -70,7 +70,6 @@ public class AddImageActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				v.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_click));
 				chooseImage();
 			}
 		});

@@ -22,8 +22,8 @@ import android.widget.VideoView;
 
 public class DisplaySelectedItem extends Activity {
 	TextView tvTittle,tvBody,tvTime;
-	ImageButton btnBack,btnEdit;
-	Button btnPlayAudio;
+	ImageButton btnBack;
+	Button btnPlayAudio,btnEdit;
 	MediaPlayer m;
 	String audioPath,videoPath,imagePath,time,location;
 	VideoView vdvVideo;
@@ -66,7 +66,7 @@ public class DisplaySelectedItem extends Activity {
 		tvTime=(TextView) findViewById(R.id.TVTime);
 		btnPlayAudio=(Button) findViewById(R.id.btnPlayAudio);
 		btnBack=(ImageButton) findViewById(R.id.btnBack);
-		btnEdit=(ImageButton) findViewById(R.id.btnEdit);
+		btnEdit=(Button) findViewById(R.id.btnEdit);
 		vdvVideo= (VideoView) findViewById(R.id.vdvVideo);
 		imageImage= (ImageView) findViewById(R.id.imageImage);
 	}

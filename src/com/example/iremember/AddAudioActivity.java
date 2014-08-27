@@ -136,10 +136,10 @@ public class AddAudioActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				v.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_click));
 				if (!isRecording) {
 					outputFile = getOutputAudioFile(MEDIA_TYPE_AUDIO).getPath();
 					myAudioRecorder.setOutputFile(outputFile);
+					btnRecordAudio.setText("Stop Record");
 					try {
 						myAudioRecorder.prepare();
 						myAudioRecorder.start();
@@ -153,6 +153,7 @@ public class AddAudioActivity extends Activity {
 				} else {
 					myAudioRecorder.stop();
 					myAudioRecorder.release();
+					btnRecordAudio.setText("Record");
 					myAudioRecorder = null;
 					isRecording = false;
 					Toast.makeText(getApplicationContext(),
@@ -213,7 +214,6 @@ public class AddAudioActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				v.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_click));
 				try {
 					
 					

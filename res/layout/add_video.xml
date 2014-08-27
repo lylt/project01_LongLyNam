@@ -57,7 +57,7 @@
         android:layout_marginBottom="46dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="#87D37C"
+        android:background="@drawable/video_button"
         android:text="Capture"
         android:textStyle="bold"
         android:textColor="#FFFFFF"
@@ -76,7 +76,7 @@
         android:text="Choose file"
         android:textStyle="bold"
         android:textColor="#FFFFFF"
-        android:background="#87D37C"
+        android:background="@drawable/video_button"
         android:drawableLeft="@drawable/choose_file" />
 
     <VideoView

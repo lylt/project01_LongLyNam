@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:background="@drawable/custom_button_image"
+            android:background="@drawable/photo_button"
             android:src="@drawable/takephoto48" />
 
         <ImageButton
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             
-            android:background="@drawable/custom_button_image"
+            android:background="@drawable/photo_button"
             android:src="@drawable/choose_file" />
     </LinearLayout>
 
